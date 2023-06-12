@@ -1,0 +1,157 @@
+body {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	font-family: 'Jost', sans-serif;
+	background: url("bg_bggenerator_com.png");
+}
+
+.main {
+	width: 550px;
+	height: 650px;
+	background: red;
+	overflow: hidden;
+	background-color: #fff;
+
+	border-radius: 10px;
+	box-shadow: 5px 20px 50px #000;
+}
+
+#chk {
+	display: none;
+}
+
+input:invalid {
+	box-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
+	animation: shake 0.7s;
+  }
+  
+  @keyframes shake {
+	10%, 90% {
+	  transform: translate3d(-1px, 0, 0);
+	}
+	20%, 80% {
+	  transform: translate3d(2px, 0, 0);
+	}
+	30%, 50%, 70% {
+	  transform: translate3d(-4px, 0, 0);
+	}
+	40%, 60% {
+	  transform: translate3d(4px, 0, 0);
+	}
+  }
+
+#forgot {
+
+	width: 60%;
+	height: 40px;
+	margin-left: 60px;
+	justify-content: center;
+	display: block;
+	font-size: 1em;
+	margin-top: 1px;
+	transition: .2s ease-in;
+	cursor: pointer;
+
+}
+
+#logo {
+	width: 150px;
+	height: 150px;
+	margin-left: 100px;
+	justify-content: center;
+	display: block;
+	margin-top: 20px;
+	cursor: pointer;
+	border-radius: 70px;
+
+
+}
+
+.signup {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	transform: translateY(-50px);
+
+}
+
+.signup label {
+	color: rebeccapurple;
+
+}
+
+.question{
+	font-size: 2.3em;
+	justify-content: center;
+	display: flex;
+	margin: 60px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: .5s ease-in-out;
+}
+.demande{
+	color: rebeccapurple;
+	justify-content: center;
+	display: flex;
+	margin: 60px;
+	font-weight: bold;
+
+
+}
+input {
+	width: 60%;
+	height: 20px;
+	background: #e0dede;
+	justify-content: center;
+	display: flex;
+	margin: 20px auto;
+	padding: 10px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
+
+button {
+	width: 60%;
+	height: 40px;
+	margin: 10px auto;
+	justify-content: center;
+	display: block;
+	color: #fff;
+	background: #573b8a;
+	font-size: 1em;
+	font-weight: bold;
+	margin-top: 60px;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	transition: .2s ease-in;
+	cursor: pointer;
+}
+
+button:hover {
+	background: #6d44b8;
+}
+
+.login {
+	height: 700px;
+	background: #ffffff;
+	border-radius: 60% / 10%;
+	transform: translateY(-360px);
+	transition: .8s ease-in-out;
+}
+
+.login label {
+	color: #573b8a;
+	transform: translateY(10px);
+	transform: scale(.6);
+}
+
+
+a:hover {
+	forced-color-adjust: #6d44b8;
+}

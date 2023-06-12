@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Page temporisée</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/loading.css' %}">
+</head>
+<body>
+  <div id="countdown">
+    <h1>Bienvenue sur mon site</h1>
+    <!-- votre contenu ici -->
+  </div>
+  <script>
+    // Définir la durée en secondes
+    var countDownDuration = 4;
+
+    // Récupérer la div compte à rebours
+    var countdownElement = document.getElementById("countdown");
+
+    // Mettre un décompte avant la redirection
+    var timer = setInterval(function() { 
+      countDownDuration--;
+      if(countDownDuration <= 0) {
+        clearInterval(timer);
+        window.location.href = 'http://127.0.0.1:8000/';
+      }
+    }, 1000);
+  </script>
+</body> 
+</html>
