@@ -9,7 +9,6 @@ from accounts.models import Student
 def signup(request):
     if request.method == 'POST':
         name = request.POST['name']
-        email = request.POST['email']
         password = request.POST['password']
         if len(password) < 8:
             context = {'error': 'Mot de passe insuffisant'}
@@ -18,7 +17,7 @@ def signup(request):
         answer1 = request.POST['r1']
         question2 = request.POST['q2']
         answer2 = request.POST['r2']
-        student = Student(name=name, email=email, password=password,
+        student = Student(name=name, password=password,
                           security_question1=question1, security_answer1=answer1,
                           security_question2=question2, security_answer2=answer2)
         student.save()
