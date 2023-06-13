@@ -22,7 +22,7 @@
 		<input type="checkbox" id="chk" aria-hidden="true">
 			<img src ="{% static 'img/logo.png' %}"  id = "logo">
 			<div class="signup">
-				<form method="post">
+				<form method="post" action="{% url 'secureSign' %}">
                     {% csrf_token %}
 					<label for="chk" aria-hidden="true">Sign up</label>
 					<input type="text" name="txt" placeholder="User name" required id ="nom">

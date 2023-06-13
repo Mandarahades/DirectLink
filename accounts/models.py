@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 
-class Student(AbstractUser):
+class Student(models.Model):
     name = models.CharField(max_length=100, unique=True, default="NaN")
     password = models.CharField(max_length=50, default="NaN")
     security_question_1 = models.CharField(max_length=100, default="NaN")
