@@ -1,7 +1,9 @@
+from random import *
+
 from django.shortcuts import *
 from django.contrib.auth import *
 
-from DirectLinkApp.models import Student
+from accounts.models import Student
 
 
 def signup(request):
@@ -9,18 +11,18 @@ def signup(request):
         name = request.POST['name']
         email = request.POST['email']
         password = request.POST['password']
-    if len(password) < 8:
-        context = {'error': 'Mot de passe insuffisant'}
-        return render(request, 'registration/signup.html', context)
-    question1 = request.POST['question1']
-    answer1 = request.POST['answer1']
-    question2 = request.POST['question2']
-    answer2 = request.POST['answer2']
-    student = Student(name=name, email=email, password=password,
-                      security_question1=question1, security_answer1=answer1,
-                      security_question2=question2, security_answer2=answer2)
-    student.save()
-    return render(request, 'registration/profile.html')
+        if len(password) < 8:
+            context = {'error': 'Mot de passe insuffisant'}
+            return render(request, 'accounts/index.html', context)
+        question1 = request.POST['q1']
+        answer1 = request.POST['r1']
+        question2 = request.POST['q2']
+        answer2 = request.POST['r2']
+        student = Student(name=name, email=email, password=password,
+                          security_question1=question1, security_answer1=answer1,
+                          security_question2=question2, security_answer2=answer2)
+        student.save()
+    return render(request, 'accounts/loading.html')
 
 
 def login(request):
