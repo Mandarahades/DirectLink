@@ -1,7 +1,9 @@
+from random import *
+
 from django.shortcuts import *
 from django.contrib.auth import *
 
-from DirectLinkApp.models import Student
+from accounts.models import Student
 
 
 def signup(request):

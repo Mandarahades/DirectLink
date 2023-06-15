@@ -22,11 +22,12 @@
 		<input type="checkbox" id="chk" aria-hidden="true">
 			<img src ="{% static 'img/logo.png' %}"  id = "logo">
 			<div class="signup">
-				<form method="post">
+				<form method="post" action="{% url 'secureSign' %}">
                     {% csrf_token %}
 					<label for="chk" aria-hidden="true">Sign up</label>
 					<input type="text" name="txt" placeholder="Name" required id ="nom">
 					<input type="password" name="pswd" placeholder="Password" required id = "pswd" >
+                    {{ error }}
 					<input type="password" name="confpwd" placeholder="Confirm Password" required id = "confpwd">
 					<button type = "submit" id = "submitbtn"> <a href="{% url 'secureSign' %}" class="boutonOne"> Sign up </a></button>
 				</form>

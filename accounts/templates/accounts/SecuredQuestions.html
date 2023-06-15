@@ -25,7 +25,7 @@
 			<input type="checkbox" id="chk" aria-hidden="true">
 			<img src="{% static 'img/logo.png' %}" id="logo">
 			<div class="signup"> {% block content %}
-				<form id="form" method="post">
+				<form id="form" method="post" action="¨{% url 'index' %}">
                 {% csrf_token %}
 					<label for="chk" aria-hidden="true">Secutity Question</label>
 					<input type="text" name="q1" placeholder="Please enter the first Security question" required="">
