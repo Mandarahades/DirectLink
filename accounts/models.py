@@ -7,15 +7,14 @@ from django.db import models
 
 class Student(AbstractUser):
     name = models.CharField(max_length=100,unique=True)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=50)
+    password = models.PasswordField(max_length=50)
     security_question_1 = models.CharField(max_length=100)
     security_answer_1 = models.CharField(max_length=100)
     security_question_2 = models.CharField(max_length=100)
     security_answer_2 = models.CharField(max_length=100)
     photo = models.ImageField(upload_to='student', null=True, blank=True)
     USERNAME_FIELD = 'name'
-    REQUIRED_FIELDS = ['email', 'security_question_1', 'security_answer_1', 'security_question_2', 'security_answer_2']
+    REQUIRED_FIELDS = ['security_question_1', 'security_answer_1', 'security_question_2', 'security_answer_2']
 
     @property
     def is_authenticated(self):

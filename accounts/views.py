@@ -7,7 +7,6 @@ from DirectLinkApp.models import Student
 def signup(request):
     if request.method == 'POST':
         name = request.POST['name']
-        email = request.POST['email']
         password = request.POST['password']
     if len(password) < 8:
         context = {'error': 'Mot de passe insuffisant'}
@@ -16,7 +15,7 @@ def signup(request):
     answer1 = request.POST['answer1']
     question2 = request.POST['question2']
     answer2 = request.POST['answer2']
-    student = Student(name=name, email=email, password=password,
+    student = Student(name=name, password=password,
                       security_question1=question1, security_answer1=answer1,
                       security_question2=question2, security_answer2=answer2)
     student.save()
@@ -25,12 +24,12 @@ def signup(request):
 
 def login(request):
     if request.method == 'POST':
-        email = request.POST['email']
+        name = request.POST['name']
         password = request.POST['password']
         try:
-            student = Student.objects.get(email=email)
+            student = Student.objects.get(name=name)
             if student.password == password:
-                request.session['email'] = email
+                request.session['name'] = name
                 return redirect('profile')
             else:
                 context = {'error': 'Mot de passe incorrect'}
@@ -43,8 +42,8 @@ def login(request):
 
 
 def profile(request):
-    email = request.session['email']
-    student = Student.objects.get(email=email)
+    name = request.session['name']
+    student = Student.objects.get(name=name)
     if request.method == 'POST':
         question1 = request.POST['question1']
         answer1 = request.POST['answer1']
@@ -63,9 +62,9 @@ def profile(request):
 
 def forgot_password(request):
     if request.method == 'POST':
-        email = request.POST['email']
+        name = request.POST['name']
         try:
-            student = Student.objects.get(email=email)
+            student = Student.objects.get(name=name)
             code = randint(1000,9999)
             # Envoie un email avec le code
             return render(request, 'registration/code.html', {'code':code})

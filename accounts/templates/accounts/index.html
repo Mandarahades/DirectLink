@@ -25,19 +25,19 @@
 				<form method="post">
                     {% csrf_token %}
 					<label for="chk" aria-hidden="true">Sign up</label>
-					<input type="text" name="txt" placeholder="User name" required id ="nom">
+					<input type="text" name="txt" placeholder="Name" required id ="nom">
 					<input type="password" name="pswd" placeholder="Password" required id = "pswd" >
 					<input type="password" name="confpwd" placeholder="Confirm Password" required id = "confpwd">
-					<button type = "submit" id = "submitbtn"> <a href='{% url 'secureSign' %}' class="boutonOne"> Sign up </a></button>
+					<button type = "submit" id = "submitbtn"> <a href="{% url 'secureSign' %}" class="boutonOne"> Sign up </a></button>
 				</form>
 			</div>
 			<div class="login">
 				<form>
 					<label for="chk" aria-hidden="true">Login</label>
-					<input type="text" name="userlog" placeholder="Email" required="">
+					<input type="text" name="userlog" placeholder="Name" required="">
 					<input type="password" name="pswd" placeholder="Password" required="">
 					<button>Login</button> <br>
-					<h10><a href='{% url 'forgot' %}' id = "forgot" >Forgotten password ?</a></h10>
+					<h10><a href="{% url 'forgot' %}" id = "forgot" >Forgotten password ?</a></h10>
 				</form>
 			</div>
 	</div>
