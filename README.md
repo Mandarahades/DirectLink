@@ -1,6 +1,6 @@
 # DirectLink
 
-DirectLink est un projet qui permet de créer un module de profil d'utilisateur pour un site web avec question de sécurité. Ce module permet aux utilisateurs de s'inscrire, de se connecter, de modifier leurs informations personnelles et de réinitialiser leur mot de passe en répondant à une question de sécurité.
+DirectLink est un projet qui permet de créer un module de profil d'utilisateur pour une application multiplateforme avec question de sécurité. Ce module permet aux utilisateurs de s'inscrire, de se connecter, de modifier leurs informations personnelles et de réinitialiser leur mot de passe en répondant à des questions de sécurité et deployable sur un serveur grâce à des requêtes d'API. 
 
 ## Installation
 
