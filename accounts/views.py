@@ -1,96 +1,87 @@
-from random import *
+from base64 import urlsafe_b64encode, urlsafe_b64decode
+from django.utils.encoding import force_bytes
+from django.utils.encoding import force_str
+from django.contrib.auth.tokens import default_token_generator
 
-from django.shortcuts import *
-from django.contrib.auth import *
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth import login
+from django.contrib.auth.models import UserManager
 
-from accounts.models import Student
-
+def home(request):
+    return render(request, 'accounts/index.html')
 
 def signup(request):
-    if request.method == 'POST':
-        name = request.POST['name']
-        password = request.POST['password']
-    if len(password) < 8:
-        context = {'error': 'Mot de passe insuffisant'}
-        return render(request, 'registration/signup.html', context)
-    question1 = request.POST['question1']
-    answer1 = request.POST['answer1']
-    question2 = request.POST['question2']
-    answer2 = request.POST['answer2']
-    student = Student(name=name, password=password,
-                      security_question1=question1, security_answer1=answer1,
-                      security_question2=question2, security_answer2=answer2)
-    student.save()
-    return render(request, 'registration/profile.html')
-
+    if request.method == 'GET':
+        return render(request, 'accounts/signup.html', {'form': UserCreationForm()})
+    else:
+        # Récupération des données du formulaire
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Enregistrement des questions de sécurité
+            user.security_question_1 = request.POST.get('security_question_1')
+            user.security_answer_1 = request.POST.get('security_answer_1')
+            user.security_question_2 = request.POST.get('security_question_2')
+            user.security_answer_2 = request.POST.get('security_answer_2')
+            user.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            return render(request, 'accounts/signup.html', {'form': form})
 
 def login(request):
-    if request.method == 'POST':
-        name = request.POST['name']
-        password = request.POST['password']
-        try:
-            student = Student.objects.get(name=name)
-            if student.password == password:
-                request.session['name'] = name
-                return redirect('profile')
-            else:
-                context = {'error': 'Mot de passe incorrect'}
-                return render(request, 'registration/login.html', context)
-        except Student.DoesNotExist:
-            context = {'error': 'Utilisateur inexistant'}
-            return render(request, 'registration/login.html', context)
+    if request.method == 'GET':
+        return render(request, 'accounts/login.html', {'form': AuthenticationForm()})
     else:
-        return render(request, 'registration/login.html')
-
-
-def profile(request):
-    name = request.session['name']
-    student = Student.objects.get(name=name)
-    if request.method == 'POST':
-        question1 = request.POST['question1']
-        answer1 = request.POST['answer1']
-        question2 = request.POST['question2']
-        answer2 = request.POST['answer2']
-        if question1 == student.security_question1 and \
-                answer1 == student.security_answer1 and \
-                question2 == student.security_question2 and \
-                answer2 == student.security_answer2:
-            return render(request, 'registration/new_password.html')
+        # Récupération des données du formulaire
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
         else:
-            context = {'error': 'Réponses aux questions de sécurité incorrectes'}
-            return render(request, 'registration/profile.html', context)
-    return render(request, 'registration/profile.html')
+            return render(request, 'accounts/login.html', {'form': form})
 
-
-def forgot_password(request):
-    if request.method == 'POST':
-        name = request.POST['name']
+def password_reset(request):
+    if request.method == 'GET':
+        return render(request, 'accounts/password_reset.html', {'form': PasswordResetForm()})
+    else:
+        # Récupération des données du formulaire
+        username = request.POST.get('username')
         try:
-            student = Student.objects.get(name=name)
-            code = randint(1000,9999)
-            # Envoie un email avec le code
-            return render(request, 'registration/code.html', {'code':code})
-        except Student.DoesNotExist:
-            context = {'error': 'Adresse email inexistante'}
-            return render(request, 'registration/forgot_password.html', context)
-    return render(request, 'registration/forgot_password.html')
-
-
-def check_code(request):
-    if request.method == 'POST':
-        code = request.POST['code']
-        if code == request.session['code']:
-            return render(request, 'registration/new_password.html')
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            # Si l'utilisateur n'existe pas, on affiche un message d'erreur
+            return render(request, 'accounts/password_reset.html', {'form': PasswordResetForm(), 'error_message': 'Nom d\'utilisateur invalide'})
+        # Vérification des réponses aux questions de sécurité
+        security_answer_1 = request.POST.get('security_answer_1')
+        security_answer_2 = request.POST.get('security_answer_2')
+        if user.security_answer_1 != security_answer_1 or user.security_answer_2 != security_answer_2:
+            # Si les réponses ne correspondent pas, on affiche un message d'erreur et on vide les champs
+            return render(request, 'accounts/password_reset.html', {'form': PasswordResetForm(), 'error_message': 'Réponses aux questions de sécurité incorrectes', 'username': username})
         else:
-            context = {'error': 'Code incorrect'}
-            return render(request, 'registration/code.html', context)
-    return render(request, 'registration/code.html')
+            # Si les réponses sont correctes, on redirige l'utilisateur vers la page de réinitialisation du mot de passe
+            return redirect('password_reset_confirm', uidb64=urlsafe_b64encode(force_bytes(user.pk)).decode(), token=default_token_generator.make_token(user))
+        
+def reset_password_confirm(request, uidb64, token):
+    try:
+        # Décodage de l'ID utilisateur et vérification du jeton de réinitialisation de mot de passe
+        uid = force_str(urlsafe_b64decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
 
-def index(request):
-    return render(request,'accounts/index.html')
-def index2(request):
-    return render(request,'accounts/forgotten.html')
-def index3(request):
-    return render(request,'accounts/SecuredQuestions.html')
-def index4(request):
-    return render(request,'accounts/reload.html')
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            # Utilisation du formulaire SetPasswordForm pour permettre à l'utilisateur de saisir un nouveau mot de passe
+            form = SetPasswordForm(user, request.POST)
+            if form.is_valid():
+                user = form.save()
+                login(request, user)
+                return redirect('home')
+        else:
+            form = SetPasswordForm(user)
+        return render(request, 'accounts/reset_password_confirm.html', {'form': form})
+    else:
+        return redirect('home')

@@ -3,46 +3,33 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>DIRECT LINK Login / Sign in</title>
+  <title>DirectLink|{% block title %}Welcome{% endblock title %}</title>
     <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
 </head>
+
 <body>
+
 <!-- partial:index.partial.html -->
 {% load static %}
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Identifation</title>
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
-</head>
-<body>
-	<div class="main">  	
-		<input type="checkbox" id="chk" aria-hidden="true">
-			<img src ="{% static 'img/logo.png' %}"  id = "logo">
-			<div class="signup">
-				<form method="post" action="{% url 'secureSign' %}">
-                    {% csrf_token %}
-					<label for="chk" aria-hidden="true">Sign up</label>
-					<input type="text" name="txt" placeholder="Name" required id ="nom">
-					<input type="password" name="pswd" placeholder="Password" required id = "pswd" >
-                    {{ error }}
-					<input type="password" name="confpwd" placeholder="Confirm Password" required id = "confpwd">
-					<button type = "submit" id = "submitbtn"> <a href="{% url 'secureSign' %}" class="boutonOne"> Sign up </a></button>
-				</form>
-			</div>
-			<div class="login">
-				<form>
-					<label for="chk" aria-hidden="true">Login</label>
-					<input type="text" name="userlog" placeholder="Name" required="">
-					<input type="password" name="pswd" placeholder="Password" required="">
-					<button>Login</button> <br>
-					<h10><a href="{% url 'forgot' %}" id = "forgot" >Forgotten password ?</a></h10>
-				</form>
-			</div>
+  <head>
+	<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+	<div class="main">
+		<img src ="{% static 'img/logo.png' %}"  id = "logo">
+		<div>
+			{% block content %}
+			<br>
+			<a href="{% url 'signup' %}">Sign up</a>
+			<br>
+			<a href="{% url 'login' %}">Login</a>
+			{% endblock content %}
+		</div>
 	</div>
-</body>
+  </body>
 </html>
 <!-- partial -->
   

@@ -1,0 +1,25 @@
+{% extends 'accounts/index.html' %}
+
+{% block title %}Sign up{% endblock title %}
+
+{% block content %}
+  <h2>Sign up</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+	<h4>Please enter the security questions that will be asked if you forget your password</h4>
+
+    <label for="security_question_1">Security question 1:</label>
+    <input type="text" name="security_question_1" placeholder='Question 1' required>
+    <input type="text" name="security_answer_1" placeholder='Answer' required>
+
+    <label for="security_question_2">Security question 2:</label>
+    <input type="text" name="security_question_2" placeholder='Question 2' required>
+    <input type="text" name="security_answer_2" placeholder='Answer' required>
+
+    <button type="submit">Sign up</button>
+	<br>
+	<a href="{% url 'login' %}">Login</a>
+  </form>
+{% endblock content %}

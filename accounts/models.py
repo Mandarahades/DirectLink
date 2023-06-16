@@ -5,16 +5,16 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 
-class Student(AbstractUser):
-    name = models.CharField(max_length=100,unique=True)
-    password = models.PasswordField(max_length=50)
+class user(models.Model):
+    username = models.CharField(max_length=100,unique=True)
+    password = models.CharField(max_length=100)
     security_question_1 = models.CharField(max_length=100)
     security_answer_1 = models.CharField(max_length=100)
     security_question_2 = models.CharField(max_length=100)
     security_answer_2 = models.CharField(max_length=100)
-    photo = models.ImageField(upload_to='student', null=True, blank=True)
-    USERNAME_FIELD = 'name'
-    REQUIRED_FIELDS = ['security_question_1', 'security_answer_1', 'security_question_2', 'security_answer_2']
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['username', 'password']
 
     @property
     def is_authenticated(self):
@@ -23,6 +23,7 @@ class Student(AbstractUser):
     @property
     def is_anonymous(self):
         return False
+    
     def clean_password(self):
         if len(self.password) < 8:
             raise ValidationError('Le mot de passe doit avoir au moins 8 caractères')

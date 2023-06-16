@@ -56,7 +56,7 @@ ROOT_URLCONF = 'DirectLink.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': [BASE_DIR / 'accounts/templates']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -127,4 +127,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
-AUTH_USER_MODEL = "accounts.Student"
+AUTH_USER_MODEL = "accounts.user"
