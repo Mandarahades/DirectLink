@@ -6,7 +6,7 @@ from django.db import models
 
 
 class user(models.Model):
-    username = models.CharField(max_length=100,unique=True)
+    username = models.CharField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
     security_question_1 = models.CharField(max_length=100)
     security_answer_1 = models.CharField(max_length=100)
@@ -15,7 +15,6 @@ class user(models.Model):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['username', 'password']
-
     @property
     def is_authenticated(self):
         return True
