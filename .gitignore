@@ -1,0 +1,4 @@
+*.zip
+/Network_Control
+/__pycache__
+
